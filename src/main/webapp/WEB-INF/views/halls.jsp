@@ -1,0 +1,19 @@
+<%@ page contentType="text/html;charset=UTF-8" %><%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Venues | Event Hall</title><link rel="stylesheet" href="${pageContext.request.contextPath}/assets/app.css"></head>
+<body><%@ include file="_header.jspf" %><section class="page-heading"><div><p class="eyebrow">VENUE DIRECTORY</p><h1>Halls &amp; centers</h1><p class="muted">Capacity, facilities, and booking status for each venue.</p></div></section>
+<c:if test="${not empty error}"><p class="alert error"><c:out value="${error}"/></p></c:if>
+<section class="content-section"><div class="table-wrap"><table><thead><tr><th>Name</th><th>Type</th><th>Capacity</th><th>Base rent</th><th>Facilities</th><th>Status</th><th></th></tr></thead><tbody>
+<c:forEach items="${venues}" var="venue"><tr><td><strong><c:out value="${venue.name}"/></strong></td><td><c:out value="${venue.type}"/></td><td><c:out value="${venue.capacity}"/></td><td><c:out value="${venue.baseRent}"/></td><td><c:out value="${venue.facilities}"/></td><td><span class="status"><c:out value="${venue.status}"/></span></td><td class="row-actions"><a class="text-link" href="?edit=${venue.id}">Edit</a><form method="post"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="${venue.id}"><button class="text-button danger-text" type="submit">Delete</button></form></td></tr></c:forEach>
+<c:if test="${empty venues}"><tr><td colspan="7" class="empty-state">No venues have been added.</td></tr></c:if></tbody></table></div></section>
+<section class="content-section form-section"><div class="section-heading"><div><p class="eyebrow">DIRECTORY</p><h2><c:choose><c:when test="${not empty editing}">Edit venue</c:when><c:otherwise>Add a venue</c:otherwise></c:choose></h2></div></div>
+<form method="post" class="form-grid"><input type="hidden" name="id" value="${editing.id}">
+    <label>Venue name<input name="name" value="<c:out value='${editing.name}'/>" required></label>
+    <label>Venue type<select name="type" required><option value="MARRIAGE_HALL" ${editing.type == 'MARRIAGE_HALL' ? 'selected' : ''}>Marriage hall</option><option value="COMMUNITY_CENTER" ${editing.type == 'COMMUNITY_CENTER' ? 'selected' : ''}>Community center</option><option value="OUTDOOR_LAWN" ${editing.type == 'OUTDOOR_LAWN' ? 'selected' : ''}>Outdoor lawn</option><option value="INDOOR_CONVENTION_HALL" ${editing.type == 'INDOOR_CONVENTION_HALL' ? 'selected' : ''}>Indoor convention hall</option></select></label>
+    <label>Capacity<input type="number" min="1" name="capacity" value="${editing.capacity}" required></label>
+    <label>Base rent<input type="number" min="0" step="0.01" name="rent" value="${editing.baseRent}" required></label>
+    <label class="wide-field">Facilities<textarea name="facilities" rows="2"><c:out value="${editing.facilities}"/></textarea></label>
+    <label class="wide-field">Description<textarea name="description" rows="2"><c:out value="${editing.description}"/></textarea></label>
+    <label class="wide-field">Image URL<input name="imageUrl" value="<c:out value='${editing.imageUrl}'/>" placeholder="https://..."></label>
+    <label>Status<select name="status"><option value="ACTIVE" ${editing.status == 'ACTIVE' ? 'selected' : ''}>Active</option><option value="INACTIVE" ${editing.status == 'INACTIVE' ? 'selected' : ''}>Inactive</option></select></label>
+    <div class="form-actions"><button class="button primary" type="submit">Save venue</button><c:if test="${not empty editing}"><a class="button secondary" href="${pageContext.request.contextPath}/admin/halls">Cancel</a></c:if></div>
+</form></section><%@ include file="_footer.jspf" %></body></html>

@@ -1,0 +1,21 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<header class="topbar">
+    <a class="brand" href="${pageContext.request.contextPath}/admin/dashboard">
+        <span class="brand-mark">EH</span><span>Event Hall<br><strong>Management</strong></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+        <a href="${pageContext.request.contextPath}/admin/dashboard">Overview</a>
+        <a href="${pageContext.request.contextPath}/admin/halls">Venues</a>
+        <a href="${pageContext.request.contextPath}/admin/customers">Customers</a>
+        <a href="${pageContext.request.contextPath}/admin/bookings">Bookings</a>
+        <a href="${pageContext.request.contextPath}/admin/reports">Reports</a>
+        <a href="${pageContext.request.contextPath}/admin/signup">Admin accounts</a>
+    </nav>
+    <div class="account">
+        <span class="account-name"><c:out value="${sessionScope.admin.username}"/></span>
+        <form method="post" action="${pageContext.request.contextPath}/logout">
+            <button class="button quiet" type="submit">Sign out</button>
+        </form>
+    </div>
+</header>
+<main class="page-shell">
